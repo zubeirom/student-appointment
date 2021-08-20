@@ -1,5 +1,6 @@
 package de.stl.coursebooking.repository;
 
+import de.stl.coursebooking.dto.UserRegistrationDto;
 import de.stl.coursebooking.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

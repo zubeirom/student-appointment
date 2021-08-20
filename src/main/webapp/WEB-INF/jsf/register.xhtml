@@ -3,7 +3,7 @@
 <h:head>
     <meta charset="UTF-8"/>
     <title>Register</title>
-    <link href="/static/css/main.css" rel="stylesheet"/>
+<!--    <link href="/static/css/main.css" rel="stylesheet" />-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -27,29 +27,74 @@
     <br/>
     <br/>
     <br/>
+    <br/>
     <div class="ui container">
-        <h1 class="ui header">Register</h1>
-        <h:form>
-            <h:panelGrid columns="2">
-                <h:outputText value="Firstname" />
-                <h:inputText id="firstName" value="#{authService.firstName}" />
-                <h:outputText value="Lastname" />
-                <h:inputText id="lastname" value="#{authService.lastName}" />
-                <h:outputText value="Email" />
-                <h:inputText id="email" value="#{authService.email}" />
-                <h:outputText value="Password" />
-                <h:inputSecret id="password" value="#{authService.password}" />
-                <h:outputText value="Repeat Password" />
-                <h:inputSecret id="repeatPassword" value="#{authService.repeatPassword}"  />
-            </h:panelGrid>
-            <br/>
-            <br/>
-
-            <h:commandButton action="#{authService.register}" value="Register">
-            </h:commandButton>
-
-        </h:form>
+        <h1 class="ui center aligned header">Register</h1>
+        
+        <div class="ui form">
+            <div class="ui field">
+                <label>Firstname</label>
+                <input type="text" id="firstname"/>
+            </div>
+            <div class="ui field">
+                <label>Lastname</label>
+                <input type="text" id="lastname"/>
+            </div>
+            <div class="ui field">
+                <label>Email</label>
+                <input type="text" id="email"/>
+            </div>
+            <div class="ui field">
+                <label>Password</label>
+                <input type="password" id="password"/>
+            </div>
+            <div class="ui field">
+                <label>Repeat Password</label>
+                <input type="password" id="repeatPassword"/>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <button class="ui green button" onclick="submit()">Submit</button>
     </div>
-    <script src="/static/js/main.js"></script>
+    <script>
+        function submit() {
+            const firstName = document.getElementById("firstname").value;
+            const lastName = document.getElementById("lastname").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const repeatPassword = document.getElementById("repeatPassword").value;
+
+            if(!firstName || !lastName) {
+                alert("Firstname and lastname have to defined");
+                return;
+            }
+
+            if(password !== repeatPassword) {
+                alert("Passwords do not match")
+                return;
+            }
+
+            if(!emailIsValid(email)) {
+                alert("Email is not valid");
+                return;
+            }
+
+            fetch("/register",
+                {
+                   method: 'POST',
+                   body: JSON.stringify({ email, firstName, lastName, password, role: "STUDENT" }),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+        }
+
+        function emailIsValid(email) {
+            const re = new RegExp('^[^\s@]+@[^\s@]+\.[^\s@]+$');
+            return re.test(email);
+        }
+    </script>
 </h:body>
 </html>

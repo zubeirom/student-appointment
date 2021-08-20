@@ -53,4 +53,15 @@ public class UserRegistrationDto {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "UserRegistrationDto{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }
