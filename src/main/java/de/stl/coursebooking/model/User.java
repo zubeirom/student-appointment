@@ -16,6 +16,8 @@ public class User {
     private String lastName;
     private String role;
 
+    public User() {}
+
     public User(String email, String password, String firstName, String lastName, String role) {
         this.email = email;
         this.password = password;
@@ -76,4 +78,15 @@ public class User {
         this.role = role;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }

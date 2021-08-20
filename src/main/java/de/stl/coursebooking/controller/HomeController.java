@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping({"/", "/home"})
     public String home(Model model, @RequestParam(value="name", required=false, defaultValue="World") String name) {
         return "index";
     }

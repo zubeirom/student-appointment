@@ -9,23 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </h:head>
 <h:body>
-    <div class="ui huge top fixed menu">
-        <div class="ui container">
-            <a href="/" class="header item">
-                MyAppointment
-            </a>
-            <div class="right menu">
-                <a class="item" href="login">
-                    Login
-                </a>
-                <a class="item" href="/register">
-                    Register
-                </a>
-            </div>
-        </div>
-    </div>
-    <br/>
-    <br/>
     <br/>
     <br/>
     <div class="ui container">
@@ -88,7 +71,16 @@
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     }
-                });
+                }).then((res) => {
+                    if(res.ok) {
+                        window.location.href = "/success-registration";
+                    }
+                    if(res.status === 409) {
+                        alert(`User with the email exists already, please login`);
+                    }
+            }).catch((e) => {
+                alert("Error: " + e.toString());
+            });
         }
 
         function emailIsValid(email) {

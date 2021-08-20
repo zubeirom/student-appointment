@@ -5,17 +5,25 @@ import de.stl.coursebooking.model.CustomUserDetails;
 import de.stl.coursebooking.model.User;
 import de.stl.coursebooking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @Service
 public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -27,15 +35,12 @@ public class UserService implements IUserService {
     }
 
     public void addStudent(UserRegistrationDto userRegistrationDto) {
-        if(userExists(userRegistrationDto.getEmail())) {
+        String encryptedPassword = passwordEncoder.encode(userRegistrationDto.getPassword());
+        User newUser = new User(userRegistrationDto.getEmail(), encryptedPassword, userRegistrationDto.getFirstName(), userRegistrationDto.getLastName(), "STUDENT");
+        try {
+            userRepo.save(newUser);
+        } catch(DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User exists already");
         }
-        User newUser = new User(userRegistrationDto.getEmail(), userRegistrationDto.getPassword(), userRegistrationDto.getFirstName(), userRegistrationDto.getLastName(), "STUDENT");
-        userRepo.save(newUser);
-    }
-
-    public boolean userExists(String email) {
-        User user = userRepo.findByEmail(email);
-        return user == null;
     }
 }
