@@ -21,32 +21,58 @@
                 </div>
             </div>
         </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <div class="ui container">
-            <div class="ui placeholder segment" style="margin-top: 50%" id="seg">
-                <div class="ui two column stackable center aligned page grid">
+            <h2 class="ui center aligned header" id="firstHeader">Hi, Welcome To Your Appointment System</h2>
+            <div class="ui placeholder segment">
+                <div class="ui two column stackable center aligned grid">
                     <div class="ui vertical divider">Or</div>
                     <div class="middle aligned row">
                         <div class="column">
                             <div class="ui icon header">
                                 <i class="search icon"></i>
-                                Look over your Appointments
+                                 Look Over Your Appointments
                             </div>
-                            <div class="ui primary button">
-                                Go To Appointments
+                            <div class="field">
+                                <button class="ui secondary button">
+                                    Click Here
+                                </button>
                             </div>
                         </div>
                         <div class="column">
                             <div class="ui icon header">
                                 <i class="clock outline icon"></i>
-                                Book an appointment
+                                Book A New Appointment
                             </div>
-                            <div class="ui primary button">
-                                Create Appointment
+                            <div class="ui blue button">
+                                Click Here
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            let user;
+
+            window.onload = async function() {
+                const loadedUser = await getCurrentUser();
+                user = loadedUser;
+                document.getElementById("firstHeader").innerHTML = 'Hi ' + loadedUser.firstName +  ', Welcome To Your Appointment System';
+            }
+
+            const getCurrentUser = async () => {
+                const res = await fetch("/current-user");
+                if(res.ok) {
+                    return await res.json();
+                }
+            }
+
+        </script>
     </h:body>
 </html>
