@@ -30,9 +30,6 @@ public class EmailService {
         properties.setProperty("mail.smtp.starttls.required", "true");
         properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
         Session session = Session.getInstance(properties, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(from, "emberdev01082017");
-            }
         });
 
         //compose the message
