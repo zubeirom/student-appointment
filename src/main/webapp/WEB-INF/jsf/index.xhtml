@@ -8,16 +8,43 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </h:head>
     <h:body>
-        <div class="ui huge top fixed menu">
+        <div class="ui inverted huge top fixed menu">
             <div class="ui container">
                 <a href="/" class="header item">
                     APT
                 </a>
                 <a href="/appointments" class="item">Create Appointment</a>
                 <div class="right menu">
-                    <a class="item" href="/login">
-                        Logout
+                    <a href="/account" class="item">
+                        <i class="user icon"></i>
                     </a>
+                </div>
+            </div>
+        </div>
+        <div class="ui container">
+            <div class="ui placeholder segment" style="margin-top: 50%" id="seg">
+                <div class="ui two column stackable center aligned page grid">
+                    <div class="ui vertical divider">Or</div>
+                    <div class="middle aligned row">
+                        <div class="column">
+                            <div class="ui icon header">
+                                <i class="search icon"></i>
+                                Look over your Appointments
+                            </div>
+                            <div class="ui primary button">
+                                Go To Appointments
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui icon header">
+                                <i class="clock outline icon"></i>
+                                Book an appointment
+                            </div>
+                            <div class="ui primary button">
+                                Create Appointment
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

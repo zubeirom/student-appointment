@@ -37,5 +37,4 @@ public class AuthController {
     public String successfulRegistration() {
         return "successfulRegistration";
     }
-
 }
