@@ -46,6 +46,17 @@ public class UserService implements IUserService {
         }
     }
 
+    @Override
+    public void addLecturer(UserRegistrationDto userRegistrationDto) {
+        String encryptedPassword = passwordEncoder.encode(userRegistrationDto.getPassword());
+        User newUser = new User(userRegistrationDto.getEmail(), encryptedPassword, userRegistrationDto.getFirstName(), userRegistrationDto.getLastName(), Role.LECTURER);
+        try {
+            userRepo.save(newUser);
+        } catch(DataIntegrityViolationException e) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User exists already");
+        }
+    }
+
     public User findUserByEmail(String email) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(email);
         if(user == null) {
@@ -55,6 +66,6 @@ public class UserService implements IUserService {
     }
 
     public List<User> getAllLecturer() {
-        return userRepo.findByRole(Role.STUDENT);
+        return userRepo.findByRole(Role.LECTURER);
     }
 }

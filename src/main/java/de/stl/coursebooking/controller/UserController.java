@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -24,7 +25,14 @@ public class UserController {
         return new UserDto(user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole());
     }
 
-//    @GetMapping("/lecturers")
-//    @ResponseBody
-//    public List<User> getLecturers() {}
+    @GetMapping("/lecturers")
+    @ResponseBody
+    public List<UserDto> getLecturers() {
+        return userService.getAllLecturer().stream().map(u -> new UserDto(u.getFirstName(), u.getLastName(), u.getEmail(), u.getRole())).collect(Collectors.toList());
+    }
+
+    @GetMapping("/account")
+    public String accountView() {
+        return "accountView";
+    }
 }

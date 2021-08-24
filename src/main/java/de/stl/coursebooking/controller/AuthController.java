@@ -33,6 +33,13 @@ public class AuthController {
         return "successfulRegistration";
     }
 
+    @PostMapping("/register-lecturer")
+    @ResponseBody
+    public String registerLecturer(@RequestBody UserRegistrationDto userRegistrationDto) {
+        userService.addLecturer(userRegistrationDto);
+        return "successfulRegistration";
+    }
+
     @GetMapping("/success-registration")
     public String successfulRegistration() {
         return "successfulRegistration";

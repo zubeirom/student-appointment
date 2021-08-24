@@ -1,52 +1,75 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html">
 <h:head>
-   <meta charset="UTF-8"/>
-   <title>Create Appoinment</title>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="UTF-8"/>
+    <title>Create Appoinment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+          integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+            integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </h:head>
 <h:body>
-   <div class="ui inverted huge top fixed menu">
-      <div class="ui container">
-         <a href="/" class="header item">
-            APT
-         </a>
-         <a href="/appointments" class="item">Create Appointment</a>
-         <div class="right menu">
-            <a href="/account" class="item">
-               <i class="user icon"></i>
+    <div class="ui inverted huge top fixed menu">
+        <div class="ui container">
+            <a href="/" class="header item">
+                APT
             </a>
-         </div>
-      </div>
-   </div>
-   <div class="ui container">
-      <br/>
-      <br/>
-      <br/>
-      <h2>Create A New Appointment</h2>
-      <br/>
-      <br/>
+            <a href="/appointments" class="item">Create Appointment</a>
+            <div class="right menu">
+                <a href="/account" class="item">
+                    <i class="user icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="ui container">
+        <br/>
+        <br/>
+        <br/>
+        <h1>Create A New Appointment</h1>
+        <br/>
+        <h2 class="ui dividing header">Lecturers</h2>
+        <form class="ui form">
+            <div class="grouped fields" id="radioField">
+                <label>Select lecturer?</label>
+            </div>
+        </form>
 
-   </div>
-   <script>
-      let lecturers;
-      let availabilities;
+    </div>
+    <script>
+        let lecturers;
+        let availabilities;
 
-      window.onload = async function() {
+        window.onload = async function () {
+            lecturers = await fetchLecturer();
+            mapLecturerToRadio(lecturers);
+        }
 
-      }
+        const fetchLecturer = async () => {
+            const res = await fetch("/lecturers");
+            return await res.json();
+        }
 
-      const fetchLecturer = async () => {
-         const res = await fetch("/lecturers");
-         return await res.json();
-      }
+        const fetchAvailability = async () => {
+            const res = await fetch("/availabilities");
+            return await res.json();
+        }
 
-      const fetchAvailability = async () => {
-         const res = await fetch("/availabilities");
-         return await res.json();
-      }
-   </script>
+        const mapLecturerToRadio = (lecturers) => {
+            lecturers.forEach((l) => {
+                document.getElementById("radioField").innerHTML += `&lt;div class="field">
+      &lt;div class="ui radio checkbox">
+        &lt;input type="radio" name="example2">
+        &lt;label>` + l.firstName + " " + l.lastName + `&lt;/label>
+      &lt;/div>
+    &lt;/div>`
+            });
+        }
+    </script>
 </h:body>
 </html>

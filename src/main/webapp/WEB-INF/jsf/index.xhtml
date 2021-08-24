@@ -44,14 +44,8 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="column">
-                            <div class="ui icon header">
-                                <i class="clock outline icon"></i>
-                                Book A New Appointment
-                            </div>
-                            <a class="ui blue button" href="/create-appointment">
-                                Click Here
-                            </a>
+                        <div class="column" id="roleAction">
+
                         </div>
                     </div>
                 </div>
@@ -64,6 +58,11 @@
                 const loadedUser = await getCurrentUser();
                 user = loadedUser;
                 document.getElementById("firstHeader").innerHTML = 'Hi ' + loadedUser.firstName +  ', Welcome To Your Appointment System';
+                if(loadedUser.role === "STUDENT") {
+                    renderForStudent();
+                } else {
+                    renderForLecturer();
+                }
             }
 
             const getCurrentUser = async () => {
@@ -71,6 +70,26 @@
                 if(res.ok) {
                     return await res.json();
                 }
+            }
+
+            const renderForLecturer = () => {
+                document.getElementById("roleAction").innerHTML = `&lt;div class="ui icon header">
+                                &lt;i class="clock outline icon">&lt;/i>
+                                Create new Availability
+                            &lt;/div>
+                            &lt;a class="ui blue button" href="/create-appointment">
+                                Click Here
+                            &lt;/a>`
+            }
+
+            const renderForStudent = () => {
+                document.getElementById("roleAction").innerHTML = `&lt;div class="ui icon header">
+                                &lt;i class="clock outline icon">&lt;/i>
+                                Book A New Appointment
+                            &lt;/div>
+                            &lt;a class="ui blue button" href="/create-appointment">
+                                Click Here
+                            &lt;/a>`
             }
 
         </script>
