@@ -48,19 +48,71 @@
         <div class="header">
             Create new availability
         </div>
-        <div class="image content">
+        <div class="content">
             <div class="description">
-                <div class="ui header">We've auto-chosen a profile image for you.</div>
-                <p>We've grabbed the following image from the <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your registered e-mail address.</p>
-                <p>Is it okay to use this photo?</p>
+                <div class="ui form">
+                    <div class="grouped fields" id="radios">
+                        <label>What day of the week?</label>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="example2" value="0" id="monday"/>
+                                <label>Monday</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="example2" value="1" id="tuesday"/>
+                                <label>Tuesday</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="example2" value="2" id="wednesday"/>
+                                <label>Wednesday</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="example2" value="3" id="thursday"/>
+                                <label>Thursday</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="example2" value="4" id="friday"/>
+                                <label>Friday</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="example2" value="5" id="saturday"/>
+                                <label>Saturday</label>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="example2" value="6" id="sunday"/>
+                                <label>Sunday</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>When should it start?</label>
+                        <input type="time"/>
+                    </div>
+                    <div class="field">
+                        <label>When should it end?</label>
+                        <input type="time"/>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="actions">
             <div class="ui black deny button">
-                Nope
+                Cancel
             </div>
-            <div class="ui positive right labeled icon button">
-                Yep, that's me
+            <div class="ui positive right labeled icon button" onclick="create()">
+                Continue
                 <i class="checkmark icon"></i>
             </div>
         </div>
@@ -102,6 +154,20 @@
             $('.ui.modal')
                 .modal('show')
             ;
+        }
+
+        const create = async () => {
+            const radioVal = displayRadioValue();
+            console.log(radioVal);
+        }
+
+        const displayRadioValue = () => {
+            let ele = document.getElementsByName('example2');
+
+            for(let i = 0; i &lt; ele.length; i++) {
+                if(ele[i].checked)
+                    return ele[i].value;
+            }
         }
     </script>
 </h:body>
