@@ -1,4 +1,4 @@
 package de.stl.coursebooking.service;
 
-public interface IAppointment {
+public interface IAppointmentService {
 }

@@ -4,6 +4,6 @@ import de.stl.coursebooking.model.Availability;
 
 import java.util.List;
 
-public interface IAvailability {
+public interface IAvailabilityService {
     public List<Availability> findByLecturer(String email);
 }

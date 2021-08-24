@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+    <meta charset="UTF-8"/>
+    <title>Create Appoinment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+          integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
+            integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</h:head>
+<h:body>
+    <div class="ui inverted huge top fixed menu">
+        <div class="ui container">
+            <a href="/" class="header item">
+                APT
+            </a>
+            <a href="/appointments" class="item">Create Appointment</a>
+            <div class="right menu">
+                <a href="/account" class="item">
+                    <i class="user icon"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="ui container">
+        <br/>
+        <br/>
+        <br/>
+        <h1>Create Availability</h1>
+        <br/>
+        <h2 class="ui dividing header">Lecturers</h2>
+        <form class="ui form">
+            <div class="grouped fields" id="radioField">
+                <label>Select lecturer?</label>
+            </div>
+        </form>
+
+    </div>
+    <script>
+        let user;
+
+        window.onload = async function() {
+            const loadedUser = await getCurrentUser();
+            user = loadedUser;
+        }
+
+        const getCurrentUser = async () => {
+            const res = await fetch("/current-user");
+            if(res.ok) {
+                return await res.json();
+            }
+        }
+    </script>
+</h:body>
+</html>
