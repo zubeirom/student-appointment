@@ -10,4 +10,9 @@ public class AppointmentController {
     public String viewAppointments() {
         return "appointments";
     }
+
+    @GetMapping("/create-appointment")
+    public String createAppointmentView() {
+        return "createAppointment";
+    }
 }

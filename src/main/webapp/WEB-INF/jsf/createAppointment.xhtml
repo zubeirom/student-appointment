@@ -21,5 +21,32 @@
          </div>
       </div>
    </div>
+   <div class="ui container">
+      <br/>
+      <br/>
+      <br/>
+      <h2>Create A New Appointment</h2>
+      <br/>
+      <br/>
+
+   </div>
+   <script>
+      let lecturers;
+      let availabilities;
+
+      window.onload = async function() {
+
+      }
+
+      const fetchLecturer = async () => {
+         const res = await fetch("/lecturers");
+         return await res.json();
+      }
+
+      const fetchAvailability = async () => {
+         const res = await fetch("/availabilities");
+         return await res.json();
+      }
+   </script>
 </h:body>
 </html>
