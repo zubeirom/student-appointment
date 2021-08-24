@@ -14,9 +14,9 @@ public class AvailabilityController {
     @Autowired
     private IAvailabilityService availabilityService;
 
-    @GetMapping("/create-availability")
+    @GetMapping("/manage-availability")
     public String createAvailView() {
-        return "createAvailability";
+        return "manageAvail";
     }
 
     @RequestMapping(value="/availabilities/{lecturer}", method = RequestMethod.GET)
