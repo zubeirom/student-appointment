@@ -1,5 +1,6 @@
 package de.stl.coursebooking.controller;
 
+import de.stl.coursebooking.dto.AvailabilityDto;
 import de.stl.coursebooking.model.Availability;
 import de.stl.coursebooking.service.IAvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,12 @@ public class AvailabilityController {
     @ResponseBody
     public List<Availability> getAvailabilities(@PathVariable("lecturer") String lecturer) {
         return availabilityService.findByLecturer(lecturer);
+    }
+
+    @PostMapping("/availabilities")
+    @ResponseBody
+    public void createAvails(@RequestBody AvailabilityDto availabilityDto) {
+        System.out.println(availabilityDto);
     }
 
 }

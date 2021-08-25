@@ -36,9 +36,6 @@
         <button class="ui green button" onclick="openModal()"> <i class="plus icon"></i> Create new</button>
         <h2 class="ui dividing header">Current Availabilities</h2>
         <form class="ui form">
-            <div class="grouped fields" id="radioField">
-                <label>Select lecturer?</label>
-            </div>
         </form>
 
     </div>
@@ -157,10 +154,28 @@
         }
 
         const create = async () => {
-            const weekDay = displayRadioValue();
+            const weekday = displayRadioValue();
             const startsAt = document.getElementById("startsAt").value
             const endsAt = document.getElementById("endsAt").value;
-            console.log(startsAt, endsAt);
+            try {
+                const res = await fetch("/availabilities", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        weekday,
+                        startsAt,
+                        endsAt
+                    }),
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    }
+                });
+                if(res.ok) {
+                    document.location.reload();
+                }
+            } catch(e) {
+                alert(e.toString());
+            }
         }
 
         const displayRadioValue = () => {

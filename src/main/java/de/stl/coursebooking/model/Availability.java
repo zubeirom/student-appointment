@@ -13,13 +13,13 @@ public class Availability {
     private Long id;
     private String lecturer;
     private Weekday weekday;
-    private Date startsAt;
-    private Date endsAt;
+    private String startsAt;
+    private String endsAt;
     private Date createdAt;
 
     public Availability() {}
 
-    public Availability(String lecturer, Weekday weekday, Date startsAt, Date endsAt) {
+    public Availability(String lecturer, Weekday weekday, String startsAt, String endsAt) {
         this.lecturer = lecturer;
         this.weekday = weekday;
         this.startsAt = startsAt;
@@ -50,19 +50,19 @@ public class Availability {
         this.weekday = weekday;
     }
 
-    public Date getStartsAt() {
+    public String getStartsAt() {
         return startsAt;
     }
 
-    public void setStartsAt(Date startsAt) {
+    public void setStartsAt(String startsAt) {
         this.startsAt = startsAt;
     }
 
-    public Date getEndsAt() {
+    public String getEndsAt() {
         return endsAt;
     }
 
-    public void setEndsAt(Date endsAt) {
+    public void setEndsAt(String endsAt) {
         this.endsAt = endsAt;
     }
 
