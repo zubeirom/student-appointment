@@ -1,9 +1,11 @@
 package de.stl.coursebooking.model;
 
 import de.stl.coursebooking.enums.Weekday;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "availabilities")
@@ -15,7 +17,8 @@ public class Availability {
     private Weekday weekday;
     private String startsAt;
     private String endsAt;
-    private Date createdAt;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     public Availability() {}
 
@@ -70,7 +73,7 @@ public class Availability {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 

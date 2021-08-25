@@ -9,16 +9,25 @@ import java.sql.Date;
 
 public class AvailabilityDto {
 
+    private String lecturer;
     private Weekday weekday;
     private String startsAt;
     private String endsAt;
 
     public AvailabilityDto() {}
 
-    public AvailabilityDto(Weekday weekday, String startsAt, String endsAt) {
+    public AvailabilityDto(String lecturer, Weekday weekday, String startsAt, String endsAt) {
         this.weekday = weekday;
         this.startsAt = startsAt;
         this.endsAt = endsAt;
+    }
+
+    public String getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(String lecturer) {
+        this.lecturer = lecturer;
     }
 
     public Weekday getWeekday() {
@@ -48,9 +57,11 @@ public class AvailabilityDto {
     @Override
     public String toString() {
         return "AvailabilityDto{" +
-                "weekday=" + weekday +
-                ", startsAt=" + startsAt +
-                ", endsAt=" + endsAt +
+                "lecturer='" + lecturer + '\'' +
+                ", weekday=" + weekday +
+                ", startsAt='" + startsAt + '\'' +
+                ", endsAt='" + endsAt + '\'' +
                 '}';
     }
+
 }

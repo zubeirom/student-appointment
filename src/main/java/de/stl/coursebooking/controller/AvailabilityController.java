@@ -29,7 +29,7 @@ public class AvailabilityController {
     @PostMapping("/availabilities")
     @ResponseBody
     public void createAvails(@RequestBody AvailabilityDto availabilityDto) {
-        System.out.println(availabilityDto);
+        availabilityService.save(availabilityDto);
     }
 
 }
