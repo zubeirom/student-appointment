@@ -169,7 +169,6 @@
         }
 
         const getAvails = async (email) => {
-            console.log(email);
             const res = await fetch('/availabilities/' + email);
             if(res.ok) {
                 return await res.json();
