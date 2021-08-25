@@ -35,8 +35,18 @@
         <br/>
         <button class="ui green button" onclick="openModal()"> <i class="plus icon"></i> Create new</button>
         <h2 class="ui dividing header">Current Availabilities</h2>
-        <form class="ui form">
-        </form>
+        <table class="ui celled table">
+            <thead>
+            <tr><th>Weekday</th>
+                <th>Starts At</th>
+                <th>Ends At</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr></thead>
+            <tbody id="availsTable">
+
+            </tbody>
+        </table>
 
     </div>
 
@@ -128,8 +138,27 @@
         window.onload = async function() {
             const loadedUser = await getCurrentUser();
             avails = await getAvails(loadedUser.email);
-            console.log(avails);
             user = loadedUser;
+            renderAvails(avails);
+        }
+
+        const renderAvails = (avails) => {
+            avails.forEach((a) => {
+                document.getElementById("availsTable").innerHTML += `&lt;tr>
+            &lt;td data-label="">` + a.weekday  + `&lt;/td>
+            &lt;td data-label="Age">` + a.startsAt + `&lt;/td>
+            &lt;td data-label="Job">` + a.endsAt + `&lt;/td>
+            &lt;td data-label="Update">
+                &lt;button class="ui blue button" onclick="update(`+ a.id +`)">Update&lt;/button>
+            &lt;/td>
+            &lt;td data-label="Delete">
+                &lt;button class="ui red button" onclick="del(` + a.id + `)">
+                    &lt;i class="trash icon">&lt;/i> Delete
+                &lt;/button>
+            &lt;/td>
+        &lt;/tr>`
+            })
+
         }
 
         const getCurrentUser = async () => {
@@ -186,6 +215,14 @@
                 if(ele[i].checked)
                     return ele[i].value;
             }
+        }
+
+        const update = (id) => {
+            const avail = avails.find(av => av.id === id);
+        }
+
+        const del = (a) => {
+            const avail = avails.find(av => av.id === id);
         }
     </script>
 </h:body>
