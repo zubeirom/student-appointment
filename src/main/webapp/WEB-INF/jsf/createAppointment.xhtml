@@ -164,7 +164,7 @@
             avails.forEach((a) => {
                 document.getElementById("timesRadio").innerHTML += `&lt;div class="field">
       &lt;div class="ui radio checkbox">
-        &lt;input type="radio" name="timesRadio">
+        &lt;input type="radio" name="timesRadio" value="`+ a.id +`">
         &lt;label>` + a.startsAt + " - " + a.endsAt + `&lt;/label>
       &lt;/div>
     &lt;/div>`
