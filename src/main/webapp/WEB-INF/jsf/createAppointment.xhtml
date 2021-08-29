@@ -42,33 +42,70 @@
         </form>
 
         <h4 class="ui dividing header">Select date and time</h4>
-        <input type="text" id="datepicker" />
+        <div class="ui grid">
+            <div class="ui eight wide column">
+                <input type="text" id="datepicker" />
+            </div>
+            <div class="ui eight wide column">
+                <div class="grouped fields" id="timesRadio"></div>
+            </div>
+        </div>
 
     </div>
     <script>
         let lecturers;
         let avails;
+        // Weekdays in number [0,1,2]
         let weekdays;
+        let availsForLecturer;
+        let selectedLecturer;
 
         window.onload = async function () {
             lecturers = await fetchLecturer();
             avails = await fetchAvailability();
-            console.log(avails);
             mapLecturerToRadio(lecturers);
+            availsForLecturer = avails.filter(a => a.lecturer === "mary@jane.com");
             weekdays = avails.map(a => {
                 if(a.lecturer === "mary@jane.com") {
                     return getIndexOfWeekday(a.weekday);
                 }
             });
-            console.log(weekdays);
             $( "#datepicker" ).datepicker({
-                firstDay: 1,
-                beforeShowDay: isAvailable
+                beforeShowDay: isAvailable,
+                onSelect: dateSelected
             });
         }
 
-        const mapWeekday = (weekday) => {
+        const indexToDay = (weekday) => {
+            switch(weekday) {
+                case 0:
+                    return "SUNDAY";
+                case 1:
+                    return "MONDAY";
+                case 2:
+                    return "TUESDAY";
+                case 3:
+                    return "WEDNESDAY";
+                case 4:
+                    return "THURSDAY";
+                case 5:
+                    return "FRIDAY";
+                case 6:
+                    return "SATURDAY";
+            }
+        }
 
+        const dateSelected = d => {
+            const i = $( "#datepicker" ).datepicker( "getDate" ).getDay();
+
+            console.log(i);
+
+            const day = indexToDay(i);
+
+            console.log(availsForLecturer);
+
+            const byDate = availsForLecturer.filter(a => a.weekday === day);
+            mapTimesToRadio(byDate);
         }
 
         const isAvailable = (d) => {
@@ -117,6 +154,18 @@
       &lt;div class="ui radio checkbox">
         &lt;input type="radio" name="example2">
         &lt;label>` + l.firstName + " " + l.lastName + `&lt;/label>
+      &lt;/div>
+    &lt;/div>`
+            });
+        }
+
+        const mapTimesToRadio = (avails) => {
+            document.getElementById("timesRadio").innerHTML  = "";
+            avails.forEach((a) => {
+                document.getElementById("timesRadio").innerHTML += `&lt;div class="field">
+      &lt;div class="ui radio checkbox">
+        &lt;input type="radio" name="timesRadio">
+        &lt;label>` + a.startsAt + " - " + a.endsAt + `&lt;/label>
       &lt;/div>
     &lt;/div>`
             });
