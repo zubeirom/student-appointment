@@ -1,6 +1,9 @@
 package de.stl.coursebooking.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "users")
@@ -15,6 +18,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String role;
+    @CreationTimestamp
+    private Timestamp createdAt;
 
     public User() {}
 

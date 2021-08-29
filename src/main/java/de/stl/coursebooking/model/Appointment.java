@@ -1,7 +1,10 @@
 package de.stl.coursebooking.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -21,5 +24,17 @@ public class Appointment {
     private boolean confirmed;
     private Date startsAt;
     private Date endsAt;
-    private Date createdAt;
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    public Appointment() {}
+
+    public Appointment(String student, String lecturer, List<String> participants, String description, Date startsAt, Date endsAt) {
+        this.student = student;
+        this.lecturer = lecturer;
+        this.participants = participants;
+        this.description = description;
+        this.startsAt = startsAt;
+        this.endsAt = endsAt;
+    }
 }
