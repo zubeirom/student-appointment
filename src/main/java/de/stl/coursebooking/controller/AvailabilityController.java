@@ -32,4 +32,10 @@ public class AvailabilityController {
         availabilityService.save(availabilityDto);
     }
 
+    @GetMapping("/availabilities")
+    @ResponseBody
+    public List<Availability> getAllAvails() {
+        return availabilityService.findAll();
+    }
+
 }

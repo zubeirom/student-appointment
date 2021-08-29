@@ -37,4 +37,9 @@ public class AvailabilityService implements IAvailabilityService {
         Availability avails = availabilityRepository.findAvailabilityByLecturerAndWeekdayAndEndsAtAndStartsAt(availabilityDto.getLecturer(), availabilityDto.getWeekday(), availabilityDto.getEndsAt(), availabilityDto.getStartsAt());
         return avails != null;
     }
+
+    @Override
+    public List<Availability> findAll() {
+        return availabilityRepository.findAll();
+    }
 }

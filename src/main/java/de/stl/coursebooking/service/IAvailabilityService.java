@@ -11,4 +11,6 @@ public interface IAvailabilityService {
     public void save(AvailabilityDto availabilityDto);
 
     public boolean exists(AvailabilityDto availabilityDto);
+
+    public List<Availability> findAll();
 }

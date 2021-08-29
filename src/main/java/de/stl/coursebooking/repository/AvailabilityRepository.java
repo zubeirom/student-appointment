@@ -15,4 +15,7 @@ public interface AvailabilityRepository extends JpaRepository<Availability, Long
 
     public Availability findAvailabilityByLecturerAndWeekdayAndEndsAtAndStartsAt(String lecturer, Weekday weekday, String endsAt, String startsAt);
 
+    @Query(value = "SELECT * FROM availabilities", nativeQuery = true)
+    public List<Availability> findAll();
+
 }

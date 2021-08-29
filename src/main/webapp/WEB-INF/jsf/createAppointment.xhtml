@@ -12,6 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"
             integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha512-aOG0c6nPNzGk+5zjwyJaoRUgCdOrfSDhmMID2u4+OIslr0GjpLKo7Xm0Ao3xmpM4T8AmIouRkqwj1nrdVsLKEQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </h:head>
 <h:body>
     <div class="ui inverted huge top fixed menu">
@@ -33,21 +35,47 @@
         <br/>
         <h1>Create A New Appointment</h1>
         <a href="/">Home > </a>
-        <h2 class="ui dividing header">Lecturers</h2>
+        <h4 class="ui dividing header">Lecturers</h4>
         <form class="ui form">
             <div class="grouped fields" id="radioField">
-                <label>Select lecturer?</label>
             </div>
         </form>
+
+        <h4 class="ui dividing header">Select date and time</h4>
+        <input type="text" id="datepicker" />
 
     </div>
     <script>
         let lecturers;
-        let availabilities;
+        let avails;
+        let weekdays;
 
         window.onload = async function () {
             lecturers = await fetchLecturer();
+            avails = await fetchAvailability();
+            console.log(avails);
             mapLecturerToRadio(lecturers);
+            weekdays = avails.map(a => {
+                if(a.lecturer === "mary@jane.com") {
+                    return getIndexOfWeekday(a.weekday);
+                }
+            });
+            console.log(weekdays);
+            $( "#datepicker" ).datepicker({
+                firstDay: 1,
+                beforeShowDay: isAvailable
+            });
+        }
+
+        const mapWeekday = (weekday) => {
+
+        }
+
+        const isAvailable = (d) => {
+            if(weekdays.includes(d.getDay())) {
+                return [true, "av", "Available"];
+            }
+            return [false, "notav", 'Not Available'];
         }
 
         const fetchLecturer = async () => {
@@ -58,6 +86,29 @@
         const fetchAvailability = async () => {
             const res = await fetch("/availabilities");
             return await res.json();
+        }
+
+        const filterByLecturer = (lecturer) => {
+            return avails.filter(a => a.lecturer === lecturer);
+        }
+
+        const getIndexOfWeekday = wd => {
+            switch(wd) {
+                case "SUNDAY":
+                    return 0;
+                case "MONDAY":
+                    return 1;
+                case "TUESDAY":
+                    return 2;
+                case "WEDNESDAY":
+                    return 3;
+                case "THURSDAY":
+                    return 4;
+                case "FRIDAY":
+                    return 5;
+                case "SATURDAY":
+                    return 6;
+            }
         }
 
         const mapLecturerToRadio = (lecturers) => {
