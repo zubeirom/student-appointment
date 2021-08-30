@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html">
 <h:head>
     <meta charset="UTF-8"/>
-    <title>Create Appoinment</title>
+    <title>APT - Create Appoinment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
           integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
@@ -59,11 +59,9 @@
                 <h4 class="ui dividing header">Description</h4>
                 <textarea rows="5" class="ui fluid input" placeholder="Write your description" />
             </div>
-            <div class="field">
-                <button class="ui fluid green button" onclick="book()">Book Appointment</button>
-            </div>
         </form>
-
+        <br/>
+        <button class="ui fluid green button" onclick="book()">Book Appointment</button>
     </div>
     <script>
         let lecturers;
@@ -207,7 +205,19 @@
             });
         }
 
+        const book = (e) => {
+            let lecturer = "mary@jane.com";
+            let student = currentUser.email;
+            let participants = $('.ui.dropdown').dropdown("get value");
+            const selectedDate = $('#datepicker').datepicker('getDate');
+            console.log(values);
+            console.log(selectedDate);
+        }
 
+        // Composes Date from selected date and available time
+        const composeDate = (date, avail) => {
+
+        }
 
     </script>
 </h:body>
