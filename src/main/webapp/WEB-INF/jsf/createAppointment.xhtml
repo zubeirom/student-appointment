@@ -205,18 +205,57 @@
             });
         }
 
-        const book = (e) => {
+        const book = async () => {
             let lecturer = "mary@jane.com";
             let student = currentUser.email;
             let participants = $('.ui.dropdown').dropdown("get value");
             const selectedDate = $('#datepicker').datepicker('getDate');
-            console.log(values);
-            console.log(selectedDate);
+            const selectedAvail = getAvailById(getRadioValue("timesRadio"));
+            const startsAt = composeDate(selectedDate, selectedAvail.startsAt);
+            const endsAt = composeDate(selectedDate, selectedAvail.endsAt);
+
+            try {
+                const res = await fetch("/appointments", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        lecturer,
+                        student,
+                        participants,
+                        startsAt,
+                        endsAt,
+                        description: "This is a description"
+                    }),
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
+                    }
+                });
+            } catch(e) {
+                console.error(e);
+            }
         }
 
         // Composes Date from selected date and available time
         const composeDate = (date, avail) => {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+            const hour = avail.split(":")[0];
+            const minute = avail.split(":")[1];
+            return new Date(year, month, day, hour, minute);
+        }
 
+        const getRadioValue = elementID => {
+            let ele = document.getElementsByName(elementID);
+
+            for(let i = 0; i &lt; ele.length; i++) {
+                if(ele[i].checked)
+                    return ele[i].value;
+            }
+        }
+
+        const getAvailById = id => {
+            return availsForLecturer.find(a => a.id === parseInt(id));
         }
 
     </script>
