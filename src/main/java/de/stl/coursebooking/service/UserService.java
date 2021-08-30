@@ -65,7 +65,11 @@ public class UserService implements IUserService {
         return user;
     }
 
+    @Override
     public List<User> getAllLecturer() {
         return userRepo.findByRole(Role.LECTURER);
     }
+
+    @Override
+    public List<User> getAllStudents() { return userRepo.findByRole(Role.STUDENT); }
 }

@@ -11,4 +11,5 @@ public interface IUserService extends UserDetailsService {
     public void addLecturer(UserRegistrationDto userRegistrationDto);
     public User findUserByEmail(String email);
     public List<User> getAllLecturer();
+    public List<User> getAllStudents();
 }

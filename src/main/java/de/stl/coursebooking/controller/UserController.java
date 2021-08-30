@@ -35,4 +35,10 @@ public class UserController {
     public String accountView() {
         return "accountView";
     }
+
+    @GetMapping("/students")
+    @ResponseBody
+    public List<UserDto> getAllStudents() {
+        return userService.getAllStudents().stream().map(u -> new UserDto(u.getFirstName(), u.getLastName(), u.getEmail(), u.getRole())).collect(Collectors.toList());
+    }
 }
