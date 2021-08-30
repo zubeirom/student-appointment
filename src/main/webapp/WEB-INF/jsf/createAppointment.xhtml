@@ -39,24 +39,30 @@
         <form class="ui form">
             <div class="grouped fields" id="radioField">
             </div>
+            <div class="field">
+                <h4 class="ui dividing header">Select date and time</h4>
+                <div class="ui grid">
+                    <div class="ui eight wide column">
+                        <input type="text" id="datepicker" placeholder="Select Date..." />
+                    </div>
+                    <div class="ui eight wide column">
+                        <div class="grouped fields" id="timesRadio"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <h4 class="ui dividing header">Select participants</h4>
+                <select class="ui fluid search dropdown" multiple="" id="userDropdown">
+                </select>
+            </div>
+            <div class="field">
+                <h4 class="ui dividing header">Description</h4>
+                <textarea rows="5" class="ui fluid input" placeholder="Write your description" />
+            </div>
+            <div class="field">
+                <button class="ui fluid green button" onclick="book()">Book Appointment</button>
+            </div>
         </form>
-
-        <h4 class="ui dividing header">Select date and time</h4>
-        <div class="ui grid">
-            <div class="ui eight wide column">
-                <input type="text" id="datepicker" placeholder="Select Date..." />
-            </div>
-            <div class="ui eight wide column">
-                <div class="grouped fields" id="timesRadio"></div>
-            </div>
-        </div>
-
-        <h4 class="ui dividing header">Select participants</h4>
-        <select class="ui fluid search dropdown" multiple="" id="userDropdown">
-        </select>
-
-        <h4 class="ui dividing header">Description</h4>
-        <textarea rows="5" class="ui fluid input" placeholder="Write your description" />
 
     </div>
     <script>
@@ -172,11 +178,11 @@
         const mapLecturerToRadio = (lecturers) => {
             lecturers.forEach((l) => {
                 document.getElementById("radioField").innerHTML += `&lt;div class="field">
-      &lt;div class="ui radio checkbox">
-        &lt;input type="radio" name="example2">
-        &lt;label>` + l.firstName + " " + l.lastName + `&lt;/label>
-      &lt;/div>
-    &lt;/div>`
+                    &lt;div class="ui radio checkbox">
+                      &lt;input type="radio" name="example2">
+                      &lt;label>` + l.firstName + " " + l.lastName + `&lt;/label>
+                    &lt;/div>
+                  &lt;/div>`
             });
         }
 
@@ -184,11 +190,11 @@
             document.getElementById("timesRadio").innerHTML  = "";
             avails.forEach((a) => {
                 document.getElementById("timesRadio").innerHTML += `&lt;div class="field">
-      &lt;div class="ui radio checkbox">
-        &lt;input type="radio" name="timesRadio" value="`+ a.id +`">
-        &lt;label>` + a.startsAt + " - " + a.endsAt + `&lt;/label>
-      &lt;/div>
-    &lt;/div>`
+                    &lt;div class="ui radio checkbox">
+                      &lt;input type="radio" name="timesRadio" value="`+ a.id +`">
+                      &lt;label>` + a.startsAt + " - " + a.endsAt + `&lt;/label>
+                    &lt;/div>
+                  &lt;/div>`
             });
         }
 
@@ -200,6 +206,8 @@
                 }
             });
         }
+
+
 
     </script>
 </h:body>
