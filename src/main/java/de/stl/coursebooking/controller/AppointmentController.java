@@ -1,10 +1,19 @@
 package de.stl.coursebooking.controller;
 
+import de.stl.coursebooking.dto.AppointmentDto;
+import de.stl.coursebooking.service.IAppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class AppointmentController {
+
+    @Autowired
+    private IAppointmentService appointmentService;
 
     @GetMapping("/appointments")
     public String viewAppointments() {
@@ -14,5 +23,11 @@ public class AppointmentController {
     @GetMapping("/create-appointment")
     public String createAppointmentView() {
         return "createAppointment";
+    }
+
+    @PostMapping("/appointments")
+    @ResponseBody
+    public void bookAppointment(@RequestBody AppointmentDto appointmentDto) {
+        appointmentService.createAppointment(appointmentDto);
     }
 }

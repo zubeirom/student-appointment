@@ -3,7 +3,7 @@ package de.stl.coursebooking.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -19,9 +19,9 @@ public class Appointment {
     @ElementCollection
     private List<String> participants;
     private String description;
-    private boolean cancelled;
-    private String cancellationReason;
-    private boolean confirmed;
+    private boolean cancelled = false;
+    private String cancellationReason = null;
+    private boolean confirmed = false;
     private Date startsAt;
     private Date endsAt;
     @CreationTimestamp
