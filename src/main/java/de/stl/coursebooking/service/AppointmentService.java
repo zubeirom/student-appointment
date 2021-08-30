@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AppointmentService implements IAppointmentService {
 
@@ -17,5 +19,8 @@ public class AppointmentService implements IAppointmentService {
     public void createAppointment(AppointmentDto appointmentDto) {
         Appointment appointment = new Appointment(appointmentDto.getStudent(), appointmentDto.getLecturer(), appointmentDto.getParticipants(), appointmentDto.getDescription(), appointmentDto.getStartsAt(), appointmentDto.getEndsAt());
         appointmentRepository.save(appointment);
+    }
+    public List<Appointment> findAppointmentsByStudent(String student) {
+        return appointmentRepository.findAppointmentsByStudent(student);
     }
 }

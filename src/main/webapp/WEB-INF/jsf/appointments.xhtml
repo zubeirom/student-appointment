@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html">
 <h:head>
     <meta charset="UTF-8"/>
-    <title>Home</title>
+    <title>APT - Appointments</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -25,9 +25,54 @@
     <br/>
     <br/>
     <div class="ui container">
+        <br/>
         <h1 class="ui header">
-            My Appointments
+            Appointments
+            <div class="sub header">Manage your appointments</div>
         </h1>
+        <a href="/">Home > </a>
+        <br/>
+        <br/>
+        <b>Not Confirmed = Lecturer needs to confirm the appointment</b>
+        <br/>
+        <b>Confirmed = Lecturer confirmed the appointment</b>
+        <br/>
+        <b>Cancelled = Student or lecturer cancelled the appointment</b>
+        <table class="ui celled table">
+            <thead>
+            <tr><th>Lecturer</th>
+                <th>Starts At</th>
+                <th>Ends At</th>
+                <th>Status</th>
+                <th>Read More</th>
+            </tr></thead>
+            <tbody id="appointmentTable">
+
+            </tbody>
+        </table>
     </div>
+
+    <script>
+        let appointments;
+        let currentUser;
+
+        window.onload = async () => {
+            currentUser = await getCurrentUser();
+            appointments = await fetchAppointments();
+            console.log(appointments);
+        }
+
+        const getCurrentUser = async () => {
+            const res = await fetch("/current-user");
+            if(res.ok) {
+                return await res.json();
+            }
+        }
+
+        const fetchAppointments = async () => {
+            const res = await fetch("/api/appointments/" + currentUser.email)
+            return await res.json();
+        }
+    </script>
 </h:body>
 </html>

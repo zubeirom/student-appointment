@@ -1,13 +1,13 @@
 package de.stl.coursebooking.controller;
 
 import de.stl.coursebooking.dto.AppointmentDto;
+import de.stl.coursebooking.model.Appointment;
 import de.stl.coursebooking.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 public class AppointmentController {
@@ -29,5 +29,11 @@ public class AppointmentController {
     @ResponseBody
     public void bookAppointment(@RequestBody AppointmentDto appointmentDto) {
         appointmentService.createAppointment(appointmentDto);
+    }
+
+    @GetMapping("/api/appointments/{student}")
+    @ResponseBody
+    public List<Appointment> findAppointmentByStudent(@PathVariable("student") String student) {
+        return appointmentService.findAppointmentsByStudent(student);
     }
 }
