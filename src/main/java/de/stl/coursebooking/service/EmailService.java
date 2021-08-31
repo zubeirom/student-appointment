@@ -19,12 +19,12 @@ public class EmailService {
     @Value("${spring.sendgrid.email}")
     private String fromEmail;
 
-    public void sendAppointmentConfirmation(Appointment appointment) throws IOException {
+    public void sendBookedAppointment(Appointment appointment) throws IOException {
         Email from = new Email(fromEmail);
         String subject = "APT - New Appointment booked";
         Email to = new Email("zmohamed@htwsaar.de");
 
-        String body = composeBody(appointment);
+        String body = composeBody(appointment, "A new appointment was booked");
 
         Content content = new Content("text/plain", body);
         Mail mail = new Mail(from, subject, to, content);
@@ -48,8 +48,37 @@ public class EmailService {
         System.out.println(response.getHeaders());
     }
 
-    private String composeBody(Appointment appointment) {
-        String s = "A new appointment was booked\n\n";
+    public void sendConfirmedAppointment(Appointment appointment) throws IOException {
+        Email from = new Email(fromEmail);
+        String subject = "APT - New Appointment booked";
+        Email to = new Email("zmohamed@htwsaar.de");
+
+        String body = composeBody(appointment, "The appointment below was confirmed by the lecturer");
+
+        Content content = new Content("text/plain", body);
+        Mail mail = new Mail(from, subject, to, content);
+
+        Personalization personalization = new Personalization();
+        personalization.addTo(to);
+        for (String email : appointment.getParticipants()) {
+            personalization.addCc(new Email(email));
+        }
+
+        mail.addPersonalization(personalization);
+
+        SendGrid sg = new SendGrid(sendgridApiKey);
+        Request request = new Request();
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mail.build());
+        Response response = sg.api(request);
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+        System.out.println(response.getHeaders());
+    }
+
+    private String composeBody(Appointment appointment, String title) {
+        String s = title + "\n\n";
         s += "Created by " + appointment.getStudent() + "\n";
         s += "Lecturer: " + appointment.getLecturer() + "\n";
         s += "Participants: " + appointment.getParticipants()  + "\n\n";

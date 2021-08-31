@@ -37,11 +37,13 @@
         <br/>
         <b>Confirmed = Lecturer confirmed the appointment</b>
         <br/>
-        <b>Cancelled = Student or lecturer cancelled the appointment</b>
+        <b>Cancelled = Student or lecturer cancelled the appointment</b> <br/>
+        <br/>
+        <a href="/create-appointment" class="ui green button"> <i class="plus icon"></i> Create New</a>
         <table class="ui celled table">
             <thead>
             <tr>
-                <th>Lecturer</th>
+                <th>With who?</th>
                 <th>Day</th>
                 <th>Starts At</th>
                 <th>Ends At</th>
@@ -62,7 +64,12 @@
             currentUser = await getCurrentUser();
             appointments = await fetchAppointments();
             console.log(appointments);
-            renderTable(appointments);
+            if(currentUser.role === "STUDENT") {
+                renderStudentTable(appointments);
+            }
+            if(currentUser.role === "LECTURER") {
+                renderLecturerTable(appointments);
+            }
         }
 
         const getCurrentUser = async () => {
@@ -73,11 +80,25 @@
         }
 
         const fetchAppointments = async () => {
-            const res = await fetch("/api/appointments/" + currentUser.email)
+            let res;
+            if(currentUser.role === "STUDENT") {
+                res = await fetch("/api/appointments/student/" + currentUser.email);
+            } else {
+                res = await fetch("/api/appointments/lecturer/" + currentUser.email);
+            }
             return await res.json();
         }
 
-        const renderTable = (appointments) => {
+        const confirm = async appointmentID => {
+            const res = await fetch("/api/appointments/confirm/" + appointmentID, {
+                method: "PATCH"
+            });
+            if(res.ok) {
+                document.location.reload();
+            }
+        }
+
+        const renderStudentTable = (appointments) => {
             appointments.forEach((a) => {
                 document.getElementById("appointmentTable").innerHTML += `&lt;tr>
             &lt;td data-label="">` + a.lecturer  + `&lt;/td>
@@ -93,6 +114,38 @@
         &lt;/tr>`
             })
 
+        }
+
+        const renderLecturerTable = (appointments) => {
+            appointments.forEach((a) => {
+                document.getElementById("appointmentTable").innerHTML += `&lt;tr>
+            &lt;td data-label="">` + a.student  + `&lt;/td>
+            &lt;td data-label="startsAt">` + new Date(a.startsAt).toLocaleDateString("de-DE") + `&lt;/td>
+            &lt;td data-label="startsAt">` + new Date(a.startsAt).toLocaleTimeString() + `&lt;/td>
+            &lt;td data-label="endsAt">` + new Date(a.endsAt).toLocaleTimeString() + `&lt;/td>
+            &lt;td data-label="Status">` + renderStatus(a) + `&lt;/td>
+            &lt;td data-label="Delete">
+                &lt;button class="ui secondary button" onclick="del(` + a.id + `)">
+                    &lt;i class="eye icon">&lt;/i> Read More
+                &lt;/button>
+            &lt;/td>
+        &lt;/tr>`
+            })
+
+        }
+
+        const renderStatus = appointment => {
+            if(appointment.cancelled === true) {
+                return "Cancelled";
+            }
+            if(appointment.confirmed === true) {
+                return "Confirmed";
+            }
+            if(appointment.confirmed === false) {
+                return `&lt;button class="ui blue button" onclick="confirm(` + appointment.id + `)">
+                   Confirm
+                &lt;/button>`
+            }
         }
     </script>
 </h:body>

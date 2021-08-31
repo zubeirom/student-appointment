@@ -33,9 +33,21 @@ public class AppointmentController {
         appointmentService.createAppointment(appointmentDto);
     }
 
-    @GetMapping("/api/appointments/{student}")
+    @GetMapping("/api/appointments/student/{student}")
     @ResponseBody
     public List<Appointment> findAppointmentByStudent(@PathVariable("student") String student) {
         return appointmentService.findAppointmentsByStudent(student);
+    }
+
+    @GetMapping("/api/appointments/lecturer/{lecturer}")
+    @ResponseBody
+    public List<Appointment> findAppointmentByLecturer(@PathVariable("lecturer") String lecturer) {
+        return appointmentService.findAppointmentsByLecturer(lecturer);
+    }
+
+    @PatchMapping("/api/appointments/confirm/{id}")
+    @ResponseBody
+    public void confirmAppointment(@PathVariable("id") String id) throws IOException {
+        appointmentService.confirmAppointment(Long.parseLong(id));
     }
 }

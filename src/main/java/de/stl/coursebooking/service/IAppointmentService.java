@@ -10,4 +10,8 @@ public interface IAppointmentService {
     public void createAppointment(AppointmentDto appointmentDto) throws IOException;
 
     public List<Appointment> findAppointmentsByStudent(String student);
+
+    public List<Appointment> findAppointmentsByLecturer(String lecturer);
+
+    public void confirmAppointment(Long id) throws IOException;
 }
