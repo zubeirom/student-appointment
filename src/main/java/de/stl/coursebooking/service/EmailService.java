@@ -1,14 +1,14 @@
 package de.stl.coursebooking.service;
 
+import com.sendgrid.*;
+import de.stl.coursebooking.model.Appointment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.Session;
+import java.io.IOException;
 import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
 
 @Service
 public class EmailService {
@@ -16,36 +16,47 @@ public class EmailService {
     @Value("${spring.sendgrid.api-key}")
     private String sendgridApiKey;
 
-    public void sendEmail() {
-        String to = "zubeir.mohamed@outlook.de";
-        String from = "zubeir40@googlemail.com";
-        String host = "smtp.gmail.com";//or IP address
+    @Value("${spring.sendgrid.email}")
+    private String fromEmail;
 
-        //Get the session object
-        Properties properties = System.getProperties();
-        properties.setProperty("mail.smtp.host", host);
-        properties.setProperty("mail.smtp.port", "465");
-        properties.setProperty("mail.smtp.ssl.enable", "true");
-        properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.starttls.required", "true");
-        properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
-        Session session = Session.getInstance(properties, new Authenticator() {
-        });
+    public void sendAppointmentConfirmation(Appointment appointment) throws IOException {
+        Email from = new Email(fromEmail);
+        String subject = "APT - New Appointment booked";
+        Email to = new Email("zmohamed@htwsaar.de");
 
-        //compose the message
-        try{
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
-            message.setSubject("Ping");
-            message.setText("Hello, this is example of sending email  ");
+        String body = composeBody(appointment);
 
-            // Send message
-            Transport.send(message);
-            System.out.println("message sent successfully....");
+        Content content = new Content("text/plain", body);
+        Mail mail = new Mail(from, subject, to, content);
 
-        }catch (MessagingException mex) {
-            mex.printStackTrace();
+        Personalization personalization = new Personalization();
+        personalization.addTo(to);
+        for (String email : appointment.getParticipants()) {
+            personalization.addCc(new Email(email));
         }
+
+        mail.addPersonalization(personalization);
+
+        SendGrid sg = new SendGrid(sendgridApiKey);
+        Request request = new Request();
+        request.setMethod(Method.POST);
+        request.setEndpoint("mail/send");
+        request.setBody(mail.build());
+        Response response = sg.api(request);
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+        System.out.println(response.getHeaders());
+    }
+
+    private String composeBody(Appointment appointment) {
+        String s = "A new appointment was booked\n\n";
+        s += "Created by " + appointment.getStudent() + "\n";
+        s += "Lecturer: " + appointment.getLecturer() + "\n";
+        s += "Participants: " + appointment.getParticipants()  + "\n\n";
+        s += "Starts at: " + appointment.getStartsAt().toString() + "\n\n";
+        s += "Ends at: " + appointment.getEndsAt().toString() + "\n\n";
+        s += "Description: " + appointment.getDescription() + "\n";
+
+        return s;
     }
 }

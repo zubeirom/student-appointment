@@ -2,11 +2,13 @@ package de.stl.coursebooking.controller;
 
 import de.stl.coursebooking.dto.AppointmentDto;
 import de.stl.coursebooking.model.Appointment;
+import de.stl.coursebooking.service.EmailService;
 import de.stl.coursebooking.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -16,7 +18,7 @@ public class AppointmentController {
     private IAppointmentService appointmentService;
 
     @GetMapping("/appointments")
-    public String viewAppointments() {
+    public String viewAppointments() throws IOException {
         return "appointments";
     }
 
@@ -27,7 +29,7 @@ public class AppointmentController {
 
     @PostMapping("/appointments")
     @ResponseBody
-    public void bookAppointment(@RequestBody AppointmentDto appointmentDto) {
+    public void bookAppointment(@RequestBody AppointmentDto appointmentDto) throws IOException {
         appointmentService.createAppointment(appointmentDto);
     }
 

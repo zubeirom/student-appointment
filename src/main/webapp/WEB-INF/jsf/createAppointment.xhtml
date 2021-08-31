@@ -57,7 +57,7 @@
             </div>
             <div class="field">
                 <h4 class="ui dividing header">Description</h4>
-                <textarea rows="5" class="ui fluid input" placeholder="Write your description" />
+                <textarea rows="5" class="ui fluid input" placeholder="Write your description" id="description" />
             </div>
         </form>
         <br/>
@@ -214,6 +214,7 @@
             const selectedAvail = getAvailById(getRadioValue("timesRadio"));
             const startsAt = composeDate(selectedDate, selectedAvail.startsAt);
             const endsAt = composeDate(selectedDate, selectedAvail.endsAt);
+            const description = document.getElementById("description").value;
 
             try {
                 const res = await fetch("/appointments", {
@@ -224,13 +225,17 @@
                         participants,
                         startsAt,
                         endsAt,
-                        description: "This is a description"
+                        description: description ? description : "No Description"
                     }),
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json"
                     }
                 });
+
+                if(res.ok) {
+                    window.location.href = "/appointments";
+                }
             } catch(e) {
                 console.error(e);
             }
