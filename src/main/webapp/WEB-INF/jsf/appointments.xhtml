@@ -56,6 +56,50 @@
         </table>
     </div>
 
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Appointment Info
+        </div>
+        <div class="content">
+            <form class="ui form">
+                <div class="field">
+                    <label>Created By</label>
+                    <p id="createdBy"></p>
+                </div>
+                <div class="field">
+                    <label>Lecturer</label>
+                    <p id="lecturer"></p>
+                </div>
+                <div class="field">
+                    <label>Participants</label>
+                    <p id="participants"></p>
+                </div>
+                <div class="field">
+                    <label>Starts At</label>
+                    <p id="startsAt"></p>
+                </div>
+                <div class="field">
+                    <label>EndsAt</label>
+                    <p id="endsAt"></p>
+                </div>
+                <div class="field">
+                    <label>Status</label>
+                    <p id="status"></p>
+                </div>
+                <div class="field">
+                    <label>Cancellation Reason</label>
+                    <p id="cancellationReason"></p>
+                </div>
+            </form>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button">
+                Close
+            </div>
+        </div>
+    </div>
+
     <script>
         let appointments;
         let currentUser;
@@ -108,7 +152,7 @@
             &lt;td data-label="endsAt">` + new Date(a.endsAt).toLocaleTimeString() + `&lt;/td>
             &lt;td data-label="Status">` + (a.confirmed ? "Confirmed" : "Not Confirmed") + `&lt;/td>
             &lt;td data-label="Delete">
-                &lt;button class="ui secondary button" onclick="del(` + a.id + `)">
+                &lt;button class="ui secondary button" onclick="openModal(` + a.id + `)">
                     &lt;i class="eye icon">&lt;/i> Read More
                 &lt;/button>
             &lt;/td>
@@ -147,6 +191,23 @@
                    Confirm
                 &lt;/button>`
             }
+        }
+
+        const openModal = appointmentID => {
+            const appointment = appointments.find(a => a.id === appointmentID);
+
+            console.log(appointment);
+
+            document.getElementById("createdBy").innerHTML = appointment.student;
+            document.getElementById("lecturer").innerHTML = appointment.lecturer;
+            document.getElementById("participants").innerHTML = appointment.participants.join("; ")
+            document.getElementById("startsAt").innerHTML = new Date(appointment.startsAt).toString();
+            document.getElementById("endsAt").innerHTML = new Date(appointment.endsAt).toString();
+            document.getElementById("status").innerHTML = appointment.cancelled === true ? "Cancelled" : appointment.confirmed === true ? "Confirmed" : "Not Confirmed";
+            document.getElementById("cancellationReason").innerHTML = appointment.cancelled === true ? appointment.cancellationReason : ""
+
+
+            $(".ui.modal").modal('show');
         }
     </script>
 </h:body>
