@@ -39,7 +39,7 @@
         <br/>
         <b>Cancelled = Student or lecturer cancelled the appointment</b> <br/>
         <br/>
-        <a href="/create-appointment" class="ui green button"> <i class="plus icon"></i> Create New</a>
+        <a href="/create-appointment" class="ui green button" style="display: none" id="createNewButton"> <i class="plus icon"></i> Create New</a>
         <table class="ui celled table">
             <thead>
             <tr>
@@ -66,6 +66,7 @@
             console.log(appointments);
             if(currentUser.role === "STUDENT") {
                 renderStudentTable(appointments);
+                document.getElementById("createNewButton").style.display = "";
             }
             if(currentUser.role === "LECTURER") {
                 renderLecturerTable(appointments);
