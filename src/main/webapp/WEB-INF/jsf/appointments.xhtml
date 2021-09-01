@@ -196,7 +196,7 @@
             &lt;td data-label="endsAt">` + new Date(a.endsAt).toLocaleTimeString() + `&lt;/td>
             &lt;td data-label="Status">` + renderStatus(a) + `&lt;/td>
             &lt;td data-label="Delete">
-                &lt;button class="ui secondary button" onclick="del(` + a.id + `)">
+                &lt;button class="ui secondary button" onclick="openModal(` + a.id + `)">
                     &lt;i class="eye icon">&lt;/i> Read More
                 &lt;/button>
             &lt;/td>
