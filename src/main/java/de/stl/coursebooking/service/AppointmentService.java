@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -21,7 +22,14 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public void createAppointment(AppointmentDto appointmentDto) throws IOException {
-        Appointment appointment = new Appointment(appointmentDto.getStudent(), appointmentDto.getLecturer(), appointmentDto.getParticipants(), appointmentDto.getDescription(), appointmentDto.getStartsAt(), appointmentDto.getEndsAt());
+        Appointment appointment = new Appointment(
+                appointmentDto.getStudent(),
+                appointmentDto.getLecturer(),
+                appointmentDto.getParticipants(),
+                appointmentDto.getDescription(),
+                new Timestamp(appointmentDto.getStartsAt().getTime()),
+                new Timestamp(appointmentDto.getEndsAt().getTime())
+        );
         appointmentRepository.save(appointment);
         emailService.sendAppointmentEmail(appointment, "APT - New Appointment Booked", "A new appointment is booked and needs to be confirmed");
     }
@@ -47,6 +55,6 @@ public class AppointmentService implements IAppointmentService {
     public void cancelAppointment(Long id, String reason, String cancelledBy) throws IOException {
         appointmentRepository.cancelAppointment(id, reason);
         Appointment appointment = appointmentRepository.findAppointmentsById(id);
-        emailService.sendAppointmentEmail(appointment, "APT - Appointment was cancelled", "The appointment was cancelled by "+ cancelledBy + ", reason: " + reason);
+        emailService.sendAppointmentEmail(appointment, "APT - Appointment was cancelled", "The appointment was cancelled by " + cancelledBy + ", reason: " + reason);
     }
 }

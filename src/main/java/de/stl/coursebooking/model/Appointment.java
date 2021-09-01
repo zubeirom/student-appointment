@@ -22,14 +22,14 @@ public class Appointment {
     private boolean cancelled = false;
     private String cancellationReason = null;
     private boolean confirmed = false;
-    private Date startsAt;
-    private Date endsAt;
+    private Timestamp startsAt;
+    private Timestamp endsAt;
     @CreationTimestamp
     private Timestamp createdAt;
 
     public Appointment() {}
 
-    public Appointment(String student, String lecturer, List<String> participants, String description, Date startsAt, Date endsAt) {
+    public Appointment(String student, String lecturer, List<String> participants, String description, Timestamp startsAt, Timestamp endsAt) {
         this.student = student;
         this.lecturer = lecturer;
         this.participants = participants;
@@ -106,7 +106,7 @@ public class Appointment {
         return startsAt;
     }
 
-    public void setStartsAt(Date startsAt) {
+    public void setStartsAt(Timestamp startsAt) {
         this.startsAt = startsAt;
     }
 
@@ -114,7 +114,7 @@ public class Appointment {
         return endsAt;
     }
 
-    public void setEndsAt(Date endsAt) {
+    public void setEndsAt(Timestamp endsAt) {
         this.endsAt = endsAt;
     }
 
