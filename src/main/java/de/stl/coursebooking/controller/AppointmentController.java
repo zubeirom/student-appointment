@@ -1,6 +1,7 @@
 package de.stl.coursebooking.controller;
 
 import de.stl.coursebooking.dto.AppointmentDto;
+import de.stl.coursebooking.dto.CancelAppointmentDto;
 import de.stl.coursebooking.model.Appointment;
 import de.stl.coursebooking.service.EmailService;
 import de.stl.coursebooking.service.IAppointmentService;
@@ -49,5 +50,11 @@ public class AppointmentController {
     @ResponseBody
     public void confirmAppointment(@PathVariable("id") String id) throws IOException {
         appointmentService.confirmAppointment(Long.parseLong(id));
+    }
+
+    @PatchMapping("/api/appointments/cancel/{id}")
+    @ResponseBody
+    public void cancelAppointment(@PathVariable("id") String id,  @RequestBody CancelAppointmentDto cancelAppointmentDto) throws IOException {
+        appointmentService.cancelAppointment(Long.parseLong(id), cancelAppointmentDto.getReason(), cancelAppointmentDto.getCancelledBy());
     }
 }

@@ -14,4 +14,6 @@ public interface IAppointmentService {
     public List<Appointment> findAppointmentsByLecturer(String lecturer);
 
     public void confirmAppointment(Long id) throws IOException;
+
+    public void cancelAppointment(Long id, String reason, String cancelledBy) throws IOException;
 }
