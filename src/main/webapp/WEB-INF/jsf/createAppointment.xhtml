@@ -81,18 +81,8 @@
 
             mapLecturerToRadio(lecturers);
             mapUserToDropdown(allStudents);
-            availsForLecturer = avails.filter(a => a.lecturer === "mary@jane.com");
-            weekdays = avails.map(a => {
-                if(a.lecturer === "mary@jane.com") {
-                    return getIndexOfWeekday(a.weekday);
-                }
-            });
 
-            $( "#datepicker" ).datepicker({
-                minDate: 0,
-                beforeShowDay: isAvailable,
-                onSelect: dateSelected
-            });
+
             $('.ui.dropdown').dropdown();
         }
 
@@ -155,6 +145,20 @@
             return avails.filter(a => a.lecturer === lecturer);
         }
 
+        const lecturerSelected = () => {
+            const email = getRadioValue("lecturers");
+
+            availsForLecturer = avails.filter(a => a.lecturer === email);
+
+            weekdays = availsForLecturer.map(a => getIndexOfWeekday(a.weekday));
+
+            $( "#datepicker" ).datepicker({
+                minDate: 0,
+                beforeShowDay: isAvailable,
+                onSelect: dateSelected
+            });
+        }
+
         const getIndexOfWeekday = wd => {
             switch(wd) {
                 case "SUNDAY":
@@ -178,7 +182,7 @@
             lecturers.forEach((l) => {
                 document.getElementById("radioField").innerHTML += `&lt;div class="field">
                     &lt;div class="ui radio checkbox">
-                      &lt;input type="radio" name="example2">
+                      &lt;input type="radio" name="lecturers" value="` + l.email + `" onclick="lecturerSelected()">
                       &lt;label>` + l.firstName + " " + l.lastName + `&lt;/label>
                     &lt;/div>
                   &lt;/div>`
@@ -207,7 +211,7 @@
         }
 
         const book = async () => {
-            let lecturer = "mary@jane.com";
+            let lecturer = getRadioValue("lecturers");
             let student = currentUser.email;
             let participants = $('.ui.dropdown').dropdown("get value");
             const selectedDate = $('#datepicker').datepicker('getDate');

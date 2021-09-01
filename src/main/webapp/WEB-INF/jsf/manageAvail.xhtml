@@ -45,7 +45,6 @@
             <tr><th>Weekday</th>
                 <th>Starts At</th>
                 <th>Ends At</th>
-                <th>Update</th>
                 <th>Delete</th>
             </tr></thead>
             <tbody id="availsTable">
@@ -153,9 +152,6 @@
             &lt;td data-label="">` + a.weekday  + `&lt;/td>
             &lt;td data-label="Age">` + a.startsAt + `&lt;/td>
             &lt;td data-label="Job">` + a.endsAt + `&lt;/td>
-            &lt;td data-label="Update">
-                &lt;button class="ui blue button" onclick="update(`+ a.id +`)">Update&lt;/button>
-            &lt;/td>
             &lt;td data-label="Delete">
                 &lt;button class="ui red button" onclick="del(` + a.id + `)">
                     &lt;i class="trash icon">&lt;/i> Delete

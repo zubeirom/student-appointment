@@ -21,7 +21,7 @@ public class EmailService {
 
     public void sendAppointmentEmail(Appointment appointment, String subject, String bodyTitle) throws IOException {
         Email from = new Email(fromEmail);
-        Email to = new Email("zmohamed@htwsaar.de");
+        Email to = new Email(appointment.getLecturer());
 
         String body = composeBody(appointment, bodyTitle);
 
