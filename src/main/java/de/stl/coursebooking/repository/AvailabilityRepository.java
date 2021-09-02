@@ -4,8 +4,10 @@ import de.stl.coursebooking.enums.Weekday;
 import de.stl.coursebooking.model.Availability;
 import de.stl.coursebooking.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface AvailabilityRepository extends JpaRepository<Availability, Long> {
@@ -17,5 +19,9 @@ public interface AvailabilityRepository extends JpaRepository<Availability, Long
 
     @Query(value = "SELECT * FROM availabilities", nativeQuery = true)
     public List<Availability> findAll();
+
+    @Transactional
+    @Modifying
+    public void deleteAvailabilityById(Long id);
 
 }

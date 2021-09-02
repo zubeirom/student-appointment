@@ -38,4 +38,9 @@ public class AvailabilityController {
         return availabilityService.findAll();
     }
 
+    @DeleteMapping("/availabilities/{id}")
+    @ResponseBody
+    public void deleteAvail(@PathVariable("id") String id) {
+        availabilityService.deleteAvail(Long.parseLong(id));
+    }
 }

@@ -221,8 +221,13 @@
             const avail = avails.find(av => av.id === id);
         }
 
-        const del = (a) => {
-            const avail = avails.find(av => av.id === id);
+        const del = async (id) => {
+            const res = await fetch("/availabilities/" + id, {
+                method: "DELETE"
+            });
+            if(res.ok) {
+                document.location.reload();
+            }
         }
     </script>
 </h:body>

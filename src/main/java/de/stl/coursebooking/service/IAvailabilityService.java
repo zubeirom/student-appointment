@@ -13,4 +13,6 @@ public interface IAvailabilityService {
     public boolean exists(AvailabilityDto availabilityDto);
 
     public List<Availability> findAll();
+
+    public void deleteAvail(Long id);
 }

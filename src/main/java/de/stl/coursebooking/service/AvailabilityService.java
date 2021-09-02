@@ -42,4 +42,9 @@ public class AvailabilityService implements IAvailabilityService {
     public List<Availability> findAll() {
         return availabilityRepository.findAll();
     }
+
+    @Override
+    public void deleteAvail(Long id) {
+        availabilityRepository.deleteAvailabilityById(id);
+    }
 }
